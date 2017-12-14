@@ -1,0 +1,21 @@
+- pipeline: "docker-build"
+  trigger_mode: "MANUAL"
+  ref_name: "master"
+  actions:
+  - action: "Build Docker image"
+    type: "DOCKERFILE"
+    dockerfile_path: "Dockerfile"
+    trigger_condition: "ALWAYS"
+- pipeline: "build"
+  trigger_mode: "MANUAL"
+  ref_name: "master"
+  actions:
+  - action: "Execute: ping getcomposer.org"
+    type: "BUILD"
+    docker_image_name: "library/ubuntu"
+    docker_image_tag: "16.04"
+    execute_commands:
+    - "ping getcomposer.org"
+    setup_commands:
+    - "apt-get update && apt-get install -y iputils-ping"
+    trigger_condition: "ALWAYS"
